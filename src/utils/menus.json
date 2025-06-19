@@ -1,0 +1,22 @@
+[
+    {
+        "label": "Home",
+        "key": "/home",
+        "icon": "AppstoreOutlined"
+    },
+    {
+        "label": "Redux",
+        "key": "/redux",
+        "icon": "MailOutlined"
+    },
+    {
+        "label": "About",
+        "key": "/about",
+        "icon": "MailOutlined"
+    },
+    {
+        "label": "设置",
+        "key": "/set",
+        "icon": "SettingOutlined"
+    }
+]
