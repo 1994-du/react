@@ -58,6 +58,7 @@ html,body{
     flex: 1;
     display: flex;
     border-bottom: 1px solid #666;
+    height: 100%;
     .aside_collapsed{
       width: 75px;
     }
@@ -101,6 +102,7 @@ html,body{
       flex: 1;
       background-color: #333;
       padding: 10px;
+      overflow: auto;
     }
   }
   footer{

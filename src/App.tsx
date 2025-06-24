@@ -52,7 +52,7 @@ function App() {
   return (
     <>
     <div className='app_wrap'>
-      <header></header>
+      {/* <header></header> */}
       <div className='app_content'>
         <aside className={collapsed ? 'aside_collapsed':'aside_normal'}>
           <Menu
