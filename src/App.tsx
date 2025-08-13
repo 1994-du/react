@@ -1,15 +1,50 @@
 import { useState } from 'react'
 import './App.scss'
 import { Outlet, useNavigate } from 'react-router-dom';
-// import Home from './pages/Home';
-// import Login from './pages/Login';
-// import Redux from './pages/Redux';
 
 import { AppstoreOutlined, MailOutlined, SettingOutlined,MenuFoldOutlined,MenuUnfoldOutlined, } from '@ant-design/icons';
-import { Menu } from 'antd';
+import { Menu,Layout } from 'antd';
 import type { MenuProps } from 'antd';
 import '@ant-design/v5-patch-for-react-19';
 import menuData from '@/utils/menus.json';
+
+const { Header, Sider, Content, Footer } = Layout;
+const headerStyle: React.CSSProperties = {
+  textAlign: 'center',
+  color: '#fff',
+  height: 64,
+  paddingInline: 48,
+  lineHeight: '64px',
+  backgroundColor: '#000000ce',
+};
+
+const contentStyle: React.CSSProperties = {
+  textAlign: 'center',
+  minHeight: 120,
+  lineHeight: '120px',
+  color: '#ff0000ff',
+  backgroundColor: '#fff',
+};
+
+const siderStyle: React.CSSProperties = {
+  textAlign: 'center',
+  lineHeight: '120px',
+  color: '#fff',
+  backgroundColor: '#000000ce',
+};
+
+const footerStyle: React.CSSProperties = {
+  textAlign: 'center',
+  color: '#fff',
+  backgroundColor: '#000000ce',
+};
+
+const layoutStyle = {
+  borderRadius: 8,
+  overflow: 'hidden',
+  width: '100%',
+  height: '100%',
+};
 const iconMap: { [key: string]: React.FC } = {
   AppstoreOutlined: AppstoreOutlined,
   MailOutlined: MailOutlined,
@@ -40,6 +75,11 @@ function App() {
     label:menu.label,
     key:menu.key,
     icon:renderIcon(menu.icon),
+    children:menu.children?.map(sec=>({
+      label:sec.label,
+      key:sec.key,
+      icon:renderIcon(sec.icon),
+    }))
   }))
   /**
    * @Description 展开菜单
@@ -50,36 +90,30 @@ function App() {
     setCollapsed(!collapsed);
   };
   return (
-    <>
-    <div className='app_wrap'>
-      {/* <header></header> */}
-      <div className='app_content'>
-        <aside className={collapsed ? 'aside_collapsed':'aside_normal'}>
+    <Layout style={layoutStyle}>
+      <Header style={headerStyle}>Header</Header>
+      <Layout>
+        <Sider className='sider_custom' style={siderStyle} width={collapsed ? 80 : 200} collapsed={collapsed}>
           <Menu
             onClick={menuClick}
-            style={{width:'max-content', backgroundColor: '#fff' }}
+            style={{flex: 1, backgroundColor: 'transparent' }}
             defaultSelectedKeys={['1']}
             defaultOpenKeys={['sub1']}
             mode="inline"
+            theme='dark'
             inlineCollapsed={collapsed}
             items={menuItems}
           />
           <div className='menu_collapsed' onClick={toggleCollapsed}>
             {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           </div>
-        </aside>
-        <main>
-          {/* <Routes>
-            <Route path="home/*" element={<Home/>} />
-            <Route path='/redux' element={<Redux/>}/>
-            <Route path="/login" element={<Login/>} />
-          </Routes> */}
+        </Sider>
+        <Content style={contentStyle}>
           <Outlet/>
-        </main>
-      </div>
-      {/* <footer></footer> */}
-    </div>
-    </>
+        </Content>
+      </Layout>
+      <Footer style={footerStyle}>Footer</Footer>
+    </Layout>
   )
 }
 

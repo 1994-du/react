@@ -6,6 +6,11 @@ import FunComponents from '../pages/FunComponents';
 import ClsComponents from '../pages/ClsComponents';
 import Redux from '../pages/Redux';
 import Login from '../pages/Login';
+import Hooks from '../pages/Hooks';
+import UseStateCom from '../pages/Hooks/useStateCom';
+import UseEffectCom from '../pages/Hooks/useEffectCom';
+import UseContextCom from '../pages/Hooks/useContextCom';
+import UseMemoCom from '../pages/Hooks/useMemoCom';
 const router = createBrowserRouter([
     {
         path: '/*',
@@ -28,6 +33,28 @@ const router = createBrowserRouter([
             {
                 path:'redux',
                 element:<Redux/>
+            },
+            {
+                path: 'hooks/*',
+                element: <Hooks />,
+                children:[
+                    {
+                        path:'useState',
+                        element:<UseStateCom/>
+                    },
+                    {
+                        path:'useEffect',
+                        element:<UseEffectCom/>
+                    },
+                    {
+                        path:'useContext',
+                        element:<UseContextCom/>
+                    },
+                    {
+                        path:'useMemo',
+                        element:<UseMemoCom/>
+                    }
+                ]
             }
         ]
     },
