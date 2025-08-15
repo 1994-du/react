@@ -1,0 +1,14 @@
+pre{
+    line-height: 20px;
+    background-color: rgb(49, 49, 49);
+    color: white;
+    text-align: left;
+    padding: 10px;
+}
+.redux_wrap{
+    height: 100%;
+    padding: 20px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}

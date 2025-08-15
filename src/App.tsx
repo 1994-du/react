@@ -15,7 +15,7 @@ const headerStyle: React.CSSProperties = {
   height: 64,
   paddingInline: 48,
   lineHeight: '64px',
-  backgroundColor: '#000000ce',
+  background: 'linear-gradient(to right, #000, #ffffffff)',
 };
 
 const contentStyle: React.CSSProperties = {
@@ -23,20 +23,22 @@ const contentStyle: React.CSSProperties = {
   minHeight: 120,
   lineHeight: '120px',
   color: '#ff0000ff',
-  backgroundColor: '#fff',
+  // background: 'radial-gradient(circle, #ff0000ff 30%, #59ff00ff 60%, rgba(4, 0, 255, 1))',
 };
 
 const siderStyle: React.CSSProperties = {
   textAlign: 'center',
   lineHeight: '120px',
   color: '#fff',
-  backgroundColor: '#000000ce',
+  // backgroundColor: '#000000ce',
+  background: 'radial-gradient(circle, #464646ff 50%, #252525ff)'
 };
 
 const footerStyle: React.CSSProperties = {
   textAlign: 'center',
   color: '#fff',
-  backgroundColor: '#000000ce',
+  background: 'linear-gradient(to right, #fff, #000)',
+  zIndex: 1
 };
 
 const layoutStyle = {
@@ -75,11 +77,11 @@ function App() {
     label:menu.label,
     key:menu.key,
     icon:renderIcon(menu.icon),
-    children:menu.children?.map(sec=>({
-      label:sec.label,
-      key:sec.key,
-      icon:renderIcon(sec.icon),
-    }))
+    // children:menu.children?.map(sec=>({
+    //   label:sec.label,
+    //   key:sec.key,
+    //   icon:renderIcon(sec.icon),
+    // }))
   }))
   /**
    * @Description 展开菜单

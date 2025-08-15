@@ -1,20 +1,49 @@
 import { Outlet,useNavigate } from 'react-router-dom';
-import { Button } from 'antd';
+import './hooks.scss';
+import { Tabs } from 'antd';
 function Hooks() {
     const navigate = useNavigate();
-    function handleClick(type:string){
-        console.log(type);
-        navigate(`/hooks/${type}`);
+    const tabsItems = [
+        {
+            label: 'useState',
+            key: 'useState',
+        },
+        {
+            label: 'useEffect',
+            key: 'useEffect',
+        },
+        {
+            label: 'useContext',
+            key: 'useContext',
+        },
+        {
+            label: 'useMemo',
+            key: 'useMemo',
+        }
+    ];
+    const custom_hooks_style:React.CSSProperties={
+        height:'100%',
+        display:'flex',
+        flexDirection:'column'
+    }
+    const hooks_content_style:React.CSSProperties={
+        flex:1,
+        overflowY:'auto',
+        padding:'24px',
+        background:'#fff',
+        borderRadius:'4px',
+        boxShadow:'0 2px 8px rgba(0, 0, 0, 0.1)'
     }
     return (
-        <div className="custom_hooks">
-            <h1>常用的 Hook</h1>
-            <Button type="primary" onClick={() => handleClick('useState')}>useState</Button>
-            <Button type="primary" onClick={() => handleClick('useEffect')}>useEffect</Button>
-            <Button type="primary" onClick={() => handleClick('useContext')}>useContext</Button>
-            <Button type="primary" onClick={() => handleClick('useMemo')}>useMemo</Button>
-            <div>
-                <Outlet/>
+        <div className="custom_hooks" style={custom_hooks_style}>
+            <Tabs
+                defaultActiveKey="1"
+                centered
+                items={tabsItems}
+                onChange={(key) => navigate(`/hooks/${key}`)}
+            />
+            <div style={hooks_content_style}>
+                <Outlet />
             </div>
         </div>
     );
