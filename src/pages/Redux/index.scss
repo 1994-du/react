@@ -4,6 +4,8 @@ pre{
     color: white;
     text-align: left;
     padding: 10px;
+    margin-top: 0;
+    border-radius: 5px;
 }
 .redux_wrap{
     height: 100%;
@@ -11,4 +13,12 @@ pre{
     overflow: auto;
     display: flex;
     flex-direction: column;
+}
+.ant-btn{
+    height: 32px;
+    flex-shrink: 0;
+    margin-bottom: 10px;
+}
+.ant-input{
+    margin-bottom: 10px;
 }

@@ -8,7 +8,7 @@ console.log('counterSlice', counterSlice);
 function Redux() {
   const dispatch = useDispatch();
   const value:any = useSelector((state) => state);
-  const [newAge, setNewAge] = useState<number>(0);
+  const [newAge, setNewAge] = useState<number>(990);
   return (
     <div className="redux_wrap">
       {/* <h1>Redux</h1> */}

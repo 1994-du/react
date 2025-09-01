@@ -11,7 +11,7 @@ import UseStateCom from '../pages/Hooks/useStateCom';
 import UseEffectCom from '../pages/Hooks/useEffectCom';
 import UseContextCom from '../pages/Hooks/useContextCom';
 import UseMemoCom from '../pages/Hooks/useMemoCom';
-const router = createBrowserRouter([
+export const routerConfig=[
     {
         path: '/*',
         element: <App />,
@@ -62,7 +62,8 @@ const router = createBrowserRouter([
         path: '/login',
         element: <Login/>,
     }
-],
+]
+const router = createBrowserRouter(routerConfig,
 {
     future: {
         v7_relativeSplatPath: true, // 启用新行为
