@@ -1,5 +1,3 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { counterSlice } from '@/store';
 import { Button } from 'antd';
 import { Component } from 'react';
 import GlobalContext from '@/utils/globalContext';
@@ -22,8 +20,8 @@ class Box extends Component<BoxProps> {
     }
 }
 
-class ClsComponent extends Component<{},ClsComponentState> {
-    constructor(props: any) {
+class ClsComponent extends Component<object, ClsComponentState> {
+    constructor(props: object) {
         super(props);
         this.state = {
             count: 0,

@@ -11,6 +11,7 @@ import UseStateCom from "../pages/Hooks/useStateCom";
 import UseEffectCom from "../pages/Hooks/useEffectCom";
 import UseContextCom from "../pages/Hooks/useContextCom";
 import UseMemoCom from "../pages/Hooks/useMemoCom";
+import AudioComponent from "../pages/AudioComponent";
 export const routerConfig = [
   {
     path: "/*",
@@ -94,6 +95,15 @@ export const routerConfig = [
             element: <UseMemoCom />,
           },
         ],
+      },
+      {
+        path: "audio",
+        meta: {
+          title: "Audio",
+          showInMenu: true,
+          icon: "MailOutlined",
+        },
+        element: <AudioComponent />,
       },
     ],
   },

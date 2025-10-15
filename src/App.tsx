@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.scss";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { routerConfig } from "./routes";
 import {
   AppstoreOutlined,
@@ -56,6 +56,7 @@ function App() {
    * @param event
    */
   const navigate = useNavigate();
+  const location = useLocation();
   const menuClick: MenuProps["onClick"] = (e) => {
     navigate(e.key);
   };
@@ -63,8 +64,6 @@ function App() {
    * @Description 菜单数据
    * @param menuData
    */
-  console.log("routerConfig", routerConfig);
-
   const menuItems =
     routerConfig
       ?.filter((item) => item.path === "/*")?.[0]
@@ -73,7 +72,30 @@ function App() {
         key: `/${item.path.replace("/*", "")}`,
         icon: renderIcon(item.meta?.icon),
       })) || [];
-  console.log("menuItems", menuItems);
+
+  // 根据当前路由计算选中的菜单项
+  const getSelectedKeys = () => {
+    // 获取当前路由路径
+    const currentPath = location.pathname;
+    // 检查当前路径是否直接匹配菜单项
+    const matchedItem = menuItems.find(item => currentPath === item.key);
+    if (matchedItem) {
+      return [matchedItem.key];
+    }
+    // 检查当前路径是否包含菜单项的key作为前缀
+    const parentItem = menuItems.find(item => currentPath.startsWith(item.key + '/'));
+    if (parentItem) {
+      return [parentItem.key];
+    }
+    // 默认返回首页
+    return ['/home'];
+  };
+
+  // 根据当前路由计算展开的菜单项
+  const getOpenKeys = () => {
+    const selectedKeys = getSelectedKeys();
+    return selectedKeys;
+  };
 
   /**
    * @Description 展开菜单
@@ -95,8 +117,8 @@ function App() {
           <Menu
             onClick={menuClick}
             style={{ flex: 1, backgroundColor: "transparent" }}
-            defaultSelectedKeys={["/home"]}
-            defaultOpenKeys={["/home"]}
+            selectedKeys={getSelectedKeys()}
+            openKeys={getOpenKeys()}
             mode="inline"
             theme="dark"
             inlineCollapsed={collapsed}

@@ -1,4 +1,4 @@
-import { Routes,Route,useNavigate,Outlet } from "react-router-dom";
+import { useNavigate,Outlet } from "react-router-dom";
 import '@/styles/home.module.scss';
 import { Button } from "antd";
 import GlobalContext from "@/utils/globalContext";
