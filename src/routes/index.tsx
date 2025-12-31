@@ -12,6 +12,9 @@ import UseEffectCom from "../pages/Hooks/useEffectCom";
 import UseContextCom from "../pages/Hooks/useContextCom";
 import UseMemoCom from "../pages/Hooks/useMemoCom";
 import AudioComponent from "../pages/AudioComponent";
+import ProtectedRoute from "../components/ProtectedRoute";
+import PublicRoute from "../components/PublicRoute";
+
 export const routerConfig = [
   {
     path: "/*",
@@ -24,7 +27,7 @@ export const routerConfig = [
           showInMenu: true,
           icon: "MailOutlined",
         },
-        element: <Home />,
+        element: <ProtectedRoute><Home /></ProtectedRoute>,
         children: [
           {
             path: "FunComponent",
@@ -51,7 +54,7 @@ export const routerConfig = [
           showInMenu: true,
           icon: "MailOutlined",
         },
-        element: <Redux />,
+        element: <ProtectedRoute><Redux /></ProtectedRoute>,
       },
       {
         path: "hooks/*",
@@ -60,7 +63,7 @@ export const routerConfig = [
           showInMenu: true,
           icon: "MailOutlined",
         },
-        element: <Hooks />,
+        element: <ProtectedRoute><Hooks /></ProtectedRoute>,
         children: [
           {
             path: "useState",
@@ -103,15 +106,16 @@ export const routerConfig = [
           showInMenu: true,
           icon: "MailOutlined",
         },
-        element: <AudioComponent />,
+        element: <ProtectedRoute><AudioComponent /></ProtectedRoute>,
       },
     ],
   },
   {
     path: "/login",
-    element: <Login />,
+    element: <PublicRoute><Login /></PublicRoute>,
   },
 ];
+
 const router = createBrowserRouter(routerConfig, {
   future: {
     v7_relativeSplatPath: true, // 启用新行为

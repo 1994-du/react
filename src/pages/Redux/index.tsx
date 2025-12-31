@@ -3,8 +3,6 @@ import { counterSlice, userSlice } from "@/store";
 import "./index.scss";
 import { Button, Input } from "antd";
 import { useState } from "react";
-console.log("counterSlice", counterSlice);
-
 function Redux() {
   const dispatch = useDispatch();
   const value = useSelector(

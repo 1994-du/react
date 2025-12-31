@@ -1,27 +1,6 @@
-import { createSlice, configureStore } from "@reduxjs/toolkit";
-const counterSlice = createSlice({
-    name: "counter",
-    initialState: 0,
-    reducers: {
-        increment: (state) => state + 1,
-        decrement: (state) => state - 1,
-    }
-});
-const userSlice = createSlice({
-    name:"user",
-    initialState:{
-        name:"",
-        age:0,
-    },
-    reducers:{
-        setName:(state, action)=>{
-            state.name = action.payload;
-        },
-        setAge:(state, action)=>{
-            state.age = action.payload;
-        }
-    },
-})
+import { configureStore } from "@reduxjs/toolkit";
+import counterSlice from "./counter";
+import userSlice from "./user";
 const store = configureStore({
     reducer:{
         counter: counterSlice.reducer,

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import cookie  from "js-cookie";
 import "./App.scss";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { routerConfig } from "./routes";
@@ -9,19 +10,25 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from "@ant-design/icons";
-import { Menu, Layout } from "antd";
+import { Menu, Layout, Dropdown } from "antd";
 import type { MenuProps } from "antd";
 import "@ant-design/v5-patch-for-react-19";
-
-const { Sider, Content } = Layout;
+import logo from '@/assets/react.svg'
+const { Sider, Content, Header } = Layout;
 
 const contentStyle: React.CSSProperties = {
+  flex : 1,
   textAlign: "center",
   minHeight: 120,
   lineHeight: "120px",
   background: "white",
 };
-
+const contentWrapStyle:  React.CSSProperties = {
+  width : "100%",
+  display: "flex",
+  flexDirection: "row",
+  flex: 1,
+};
 const siderStyle: React.CSSProperties = {
   textAlign: "center",
   lineHeight: "120px",
@@ -44,12 +51,22 @@ const iconMap: { [key: string]: React.FC } = {
   MenuFoldOutlined: MenuFoldOutlined,
   MenuUnfoldOutlined: MenuUnfoldOutlined,
 };
+const headerStyle:React.CSSProperties=  {
+  display:"flex",
+  justifyContent:"space-between",
+  alignItems:'center',
+  backgroundColor: "black",
+  color: "white",
+  fontSize: "16px",
+  fontWeight: "bold",
+  padding: "0 15px",
+};
 
 const renderIcon = (iconName: string) => {
   const IconComponent = iconMap[iconName];
   return IconComponent ? <IconComponent /> : null;
 };
-
+const userName:string = sessionStorage.getItem ("username") || "用户名";
 function App() {
   /**
    * @Description 菜单点击事件
@@ -105,10 +122,23 @@ function App() {
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
+  const dropClick:MenuProps[ "onClick"] =  (e) => {
+    if(e.key==='loginout'){
+      sessionStorage.clear()
+      cookie.remove('token')
+      navigate('/login');
+    }
+  };
   return (
     <Layout style={layoutStyle}>
-      <Layout>
-        <Sider
+        <Header style={headerStyle}>
+          <img src={logo} alt="" />
+          <Dropdown menu={{  items: [{ key: "loginout", label: "退出登录" }], onClick: dropClick }} placement="bottom" arrow>
+            {userName}
+          </Dropdown>
+        </Header>
+        <Content style={contentWrapStyle}>
+          <Sider
           className="sider_custom"
           style={siderStyle}
           width={collapsed ? 80 : 200}
@@ -127,11 +157,11 @@ function App() {
           <div className="menu_collapsed" onClick={toggleCollapsed}>
             {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           </div>
-        </Sider>
-        <Content style={contentStyle}>
-          <Outlet />
+          </Sider>
+          <Content style={contentStyle}>
+            <Outlet />
+          </Content>
         </Content>
-      </Layout>
     </Layout>
   );
 }
