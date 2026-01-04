@@ -6,4 +6,4 @@ export default function AudioComponent() {
   );
 }
 
-import Audio from "@/components/Audio";
+import {Audio} from "@/components";

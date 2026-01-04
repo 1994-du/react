@@ -7,48 +7,11 @@ import iconMap from "@/utils/iconMap";
 import { Menu, Layout, Dropdown } from "antd";
 import type { MenuProps } from "antd";
 import "@ant-design/v5-patch-for-react-19";
-import logo from '@/assets/react.svg'
+import logo from '@/assets/svg/react.svg'
+import theme from '@/assets/svg/theme.svg'
 import { routerItem,menuItem,IconMap } from '@/types/menu';
+import { contentStyle,contentWrapStyle,headerStyle,layoutStyle,siderStyle } from "./styles/app.style";
 const { Sider, Content, Header } = Layout;
-
-const contentStyle: React.CSSProperties = {
-  flex : 1,
-  textAlign: "center",
-  minHeight: 120,
-  lineHeight: "120px",
-  background: "white",
-};
-const contentWrapStyle:  React.CSSProperties = {
-  width : "100%",
-  display: "flex",
-  flexDirection: "row",
-  flex: 1,
-};
-const siderStyle: React.CSSProperties = {
-  textAlign: "center",
-  lineHeight: "120px",
-  color: "#fff",
-  background: "black",
-};
-
-const layoutStyle: React.CSSProperties = {
-  borderRadius: 8,
-  overflow: "hidden",
-  width: "100%",
-  height: "100%",
-  display: "flex",
-  flexDirection: "column",
-};
-const headerStyle:React.CSSProperties=  {
-  display:"flex",
-  justifyContent:"space-between",
-  alignItems:'center',
-  backgroundColor: "black",
-  color: "white",
-  fontSize: "16px",
-  fontWeight: "bold",
-  padding: "0 15px",
-};
 
 const renderIcon = (iconName: string) => {
   const IconComponent = (iconMap as unknown as IconMap)[iconName];
@@ -130,10 +93,12 @@ function App() {
     navigate(path);
     setSelectedKeys([e.key]);
   };
+
   return (
     <Layout style={layoutStyle}>
         <Header style={headerStyle}>
           <img src={logo} alt="" />
+          <img src={theme} alt="" />
           <Dropdown menu={{  items: [{ key: "loginout", label: "退出登录" }], onClick: dropClick }} placement="bottom" arrow>
             {userName}
           </Dropdown>
