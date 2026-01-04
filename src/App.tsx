@@ -1,19 +1,14 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import cookie  from "js-cookie";
 import "./App.scss";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { routerConfig } from "./routes";
-import {
-  AppstoreOutlined,
-  MailOutlined,
-  SettingOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-} from "@ant-design/icons";
+import iconMap from "@/utils/iconMap";
 import { Menu, Layout, Dropdown } from "antd";
 import type { MenuProps } from "antd";
 import "@ant-design/v5-patch-for-react-19";
 import logo from '@/assets/react.svg'
+import { routerItem,menuItem,IconMap } from '@/types/menu';
 const { Sider, Content, Header } = Layout;
 
 const contentStyle: React.CSSProperties = {
@@ -44,13 +39,6 @@ const layoutStyle: React.CSSProperties = {
   display: "flex",
   flexDirection: "column",
 };
-const iconMap: { [key: string]: React.FC } = {
-  AppstoreOutlined: AppstoreOutlined,
-  MailOutlined: MailOutlined,
-  SettingOutlined: SettingOutlined,
-  MenuFoldOutlined: MenuFoldOutlined,
-  MenuUnfoldOutlined: MenuUnfoldOutlined,
-};
 const headerStyle:React.CSSProperties=  {
   display:"flex",
   justifyContent:"space-between",
@@ -63,7 +51,7 @@ const headerStyle:React.CSSProperties=  {
 };
 
 const renderIcon = (iconName: string) => {
-  const IconComponent = iconMap[iconName];
+  const IconComponent = (iconMap as unknown as IconMap)[iconName];
   return IconComponent ? <IconComponent /> : null;
 };
 const userName:string = sessionStorage.getItem ("username") || "用户名";
@@ -74,51 +62,45 @@ function App() {
    */
   const navigate = useNavigate();
   const location = useLocation();
-  const menuClick: MenuProps["onClick"] = (e) => {
-    navigate(e.key);
-  };
-  /**
-   * @Description 菜单数据
-   * @param menuData
-   */
-  const menuItems =
-    routerConfig
-      ?.filter((item) => item.path === "/*")?.[0]
-      ?.children?.map((item) => ({
-        label: item.meta?.title,
-        key: `/${item.path.replace("/*", "")}`,
-        icon: renderIcon(item.meta?.icon),
-      })) || [];
-
-  // 根据当前路由计算选中的菜单项
-  const getSelectedKeys = () => {
-    // 获取当前路由路径
-    const currentPath = location.pathname;
-    // 检查当前路径是否直接匹配菜单项
-    const matchedItem = menuItems.find(item => currentPath === item.key);
-    if (matchedItem) {
-      return [matchedItem.key];
-    }
-    // 检查当前路径是否包含菜单项的key作为前缀
-    const parentItem = menuItems.find(item => currentPath.startsWith(item.key + '/'));
-    if (parentItem) {
-      return [parentItem.key];
-    }
-    // 默认返回首页
-    return ['/home'];
-  };
-
-  // 根据当前路由计算展开的菜单项
-  const getOpenKeys = () => {
-    const selectedKeys = getSelectedKeys();
-    return selectedKeys;
-  };
-
+  const [selectedKeys, setSelectedKeys] = useState<string[]>([])
+  const [openKeys, setOpenKeys] = useState<string[]>(()=>{
+    return localStorage.getItem('openMenus')?.split(',')||[]
+  });
+  useEffect(() => {
+    setSelectedKeys([location.pathname.split('/').reverse()[0]]);
+  },[location.pathname])
+  useEffect(() => {
+    localStorage.setItem('openMenus',openKeys.join(','))
+  },[openKeys])
   /**
    * @Description 展开菜单
    * @param collapsed
    */
   const [collapsed, setCollapsed] = useState(false);
+  // 菜单递归
+  const recursionMenu = (list:routerItem[]):  menuItem[] =>{
+     return list.map((item:routerItem) => {
+      if (item.children) {
+        return {
+          label: item.meta.title,
+          key: item.path.replace('/*',''),
+          icon: renderIcon(item.meta.icon || ''),
+          children: recursionMenu(item.children),
+        };
+      }
+      return {
+        label: item.meta.title,
+        key: item.path.replace('/*',''),
+        icon: renderIcon(item.meta.icon || ''),
+      }
+     })
+  }
+  /**
+   * @Description 菜单数据
+   * @param menuData
+   */
+  const menuItems = recursionMenu(routerConfig.filter((item) => item.path === "/*")?.[0]?.children || []);
+
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
@@ -128,6 +110,25 @@ function App() {
       cookie.remove('token')
       navigate('/login');
     }
+  };
+  
+  const menuOpenChange = (openKeys:string[]) => {
+    setOpenKeys(openKeys);
+  };
+
+  /**
+   * 处理菜单项点击事件
+   * 根据点击的菜单项构建路径并导航到相应路由，同时更新选中菜单项的高亮状态
+   * @param {MenuProps["onClick"]} e - 菜单项点击事件对象，包含key和keyPath属性
+   * @returns {void}
+   */
+  const menuClick: MenuProps["onClick"] = (e) => {
+    let path=''
+    e.keyPath.reverse().forEach((item) => {
+      path +=  '/' + item;
+    })
+    navigate(path);
+    setSelectedKeys([e.key]);
   };
   return (
     <Layout style={layoutStyle}>
@@ -146,16 +147,17 @@ function App() {
         >
           <Menu
             onClick={menuClick}
-            style={{ flex: 1, backgroundColor: "transparent" }}
-            selectedKeys={getSelectedKeys()}
-            openKeys={getOpenKeys()}
+            style={{ flex: 1,overflow:'auto', backgroundColor: "transparent" }}
+            selectedKeys={selectedKeys}
+            openKeys={openKeys}
+            onOpenChange={menuOpenChange}
             mode="inline"
             theme="dark"
             inlineCollapsed={collapsed}
             items={menuItems}
           />
           <div className="menu_collapsed" onClick={toggleCollapsed}>
-            {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            {collapsed ? renderIcon('MenuUnfoldOutlined') : renderIcon('MenuFoldOutlined')}
           </div>
           </Sider>
           <Content style={contentStyle}>

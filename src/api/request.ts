@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import cookie from 'js-cookie'
+import { message } from 'antd';
 const instance = Axios.create({
     timeout: 1000,
     headers:{
@@ -14,6 +15,10 @@ instance.interceptors.request.use(function (config) {
 instance.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
+    console.log('error',error);
+    if(error.status===500){
+        message.error('服务器错误');
+    }
     return Promise.reject(error);
 });
 export default instance;

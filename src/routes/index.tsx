@@ -14,6 +14,7 @@ import UseMemoCom from "../pages/Hooks/useMemoCom";
 import AudioComponent from "../pages/AudioComponent";
 import ProtectedRoute from "../components/ProtectedRoute";
 import PublicRoute from "../components/PublicRoute";
+import SystemManagement from "../pages/SystemManagement";
 
 export const routerConfig = [
   {
@@ -25,7 +26,7 @@ export const routerConfig = [
         meta: {
           title: "首页",
           showInMenu: true,
-          icon: "MailOutlined",
+          icon: "HomeOutlined",
         },
         element: <ProtectedRoute><Home /></ProtectedRoute>,
         children: [
@@ -34,6 +35,7 @@ export const routerConfig = [
             meta: {
               title: "函数组件",
               showInMenu: true,
+              icon: "MailOutlined",
             },
             element: <FunComponents />,
           },
@@ -42,6 +44,7 @@ export const routerConfig = [
             meta: {
               title: "类组件",
               showInMenu: true,
+              icon: "MailOutlined",
             },
             element: <ClsComponents />,
           },
@@ -108,6 +111,25 @@ export const routerConfig = [
         },
         element: <ProtectedRoute><AudioComponent /></ProtectedRoute>,
       },
+      {
+        path: "system-management/*",
+        meta:{
+          title: "系统管理",
+          showInMenu: true,
+          icon: "AppstoreOutlined",
+        },
+        element: <ProtectedRoute><SystemManagement /></ProtectedRoute>,
+        children:[
+          {
+            path: "user-management",
+            meta:{
+              title: "用户管理",
+              showInMenu: true,
+            },
+            element: <div>用户管理</div>
+          }
+        ]
+      }
     ],
   },
   {

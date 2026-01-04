@@ -1,8 +1,16 @@
+html[theme="dark"]{
+  ---background: #000;
+}
+html[theme="light"]{
+  ---background: #fff;
+}
 html,body{
   width: 100%;
   height: 100%;
 }
-
+body{
+  background-color: var(---background);
+}
 #root {
   width: 100%;
   height: 100%;
