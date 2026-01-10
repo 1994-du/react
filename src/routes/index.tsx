@@ -11,11 +11,12 @@ import UseStateCom from "../pages/Hooks/useStateCom";
 import UseEffectCom from "../pages/Hooks/useEffectCom";
 import UseContextCom from "../pages/Hooks/useContextCom";
 import UseMemoCom from "../pages/Hooks/useMemoCom";
-import AudioComponent from "../pages/AudioComponent";
 import ProtectedRoute from "../components/ProtectedRoute";
 import PublicRoute from "../components/PublicRoute";
 import SystemManagement from "../pages/SystemManagement";
-
+import UserManagement from "@/pages/SystemManagement/userManagement";
+import RoleManagement from "@/pages/SystemManagement/roleManagement";
+import Registry from "@/pages/Registry";
 export const routerConfig = [
   {
     path: "/*",
@@ -26,7 +27,7 @@ export const routerConfig = [
         meta: {
           title: "首页",
           showInMenu: true,
-          icon: "HomeOutlined",
+          icon: "shouye",
         },
         element: <ProtectedRoute><Home /></ProtectedRoute>,
         children: [
@@ -35,7 +36,7 @@ export const routerConfig = [
             meta: {
               title: "函数组件",
               showInMenu: true,
-              icon: "MailOutlined",
+              icon: "function",
             },
             element: <FunComponents />,
           },
@@ -44,7 +45,7 @@ export const routerConfig = [
             meta: {
               title: "类组件",
               showInMenu: true,
-              icon: "MailOutlined",
+              icon: "class",
             },
             element: <ClsComponents />,
           },
@@ -55,7 +56,7 @@ export const routerConfig = [
         meta: {
           title: "Redux",
           showInMenu: true,
-          icon: "MailOutlined",
+          icon: "redux",
         },
         element: <ProtectedRoute><Redux /></ProtectedRoute>,
       },
@@ -64,7 +65,7 @@ export const routerConfig = [
         meta: {
           title: "Hooks",
           showInMenu: true,
-          icon: "MailOutlined",
+          icon: "wenjianjia",
         },
         element: <ProtectedRoute><Hooks /></ProtectedRoute>,
         children: [
@@ -103,20 +104,11 @@ export const routerConfig = [
         ],
       },
       {
-        path: "audio",
-        meta: {
-          title: "Audio",
-          showInMenu: true,
-          icon: "MailOutlined",
-        },
-        element: <ProtectedRoute><AudioComponent /></ProtectedRoute>,
-      },
-      {
         path: "system-management/*",
         meta:{
           title: "系统管理",
           showInMenu: true,
-          icon: "AppstoreOutlined",
+          icon: "shezhi_1",
         },
         element: <ProtectedRoute><SystemManagement /></ProtectedRoute>,
         children:[
@@ -125,8 +117,18 @@ export const routerConfig = [
             meta:{
               title: "用户管理",
               showInMenu: true,
+              icon:"user"
             },
-            element: <div>用户管理</div>
+            element: <ProtectedRoute><UserManagement/></ProtectedRoute>
+          },
+          {
+            path: "role-management",
+            meta:{
+              title: "角色管理",
+              showInMenu: true,
+              icon:"icon_roles"
+            },
+            element: <ProtectedRoute><RoleManagement/></ProtectedRoute>
           }
         ]
       }
@@ -135,6 +137,10 @@ export const routerConfig = [
   {
     path: "/login",
     element: <PublicRoute><Login /></PublicRoute>,
+  },
+  {
+    path: "/register",
+    element: <PublicRoute><Registry /></PublicRoute>,
   },
 ];
 

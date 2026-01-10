@@ -6,3 +6,10 @@ export const toLogin = (data: { username: string; password: string }) => {
         data
     })
 }
+export const toRegistry = (data: { username: string; password: string }) => {
+    return request({
+        url: "/api/auth/register",
+        method: "post",
+        data
+    })
+}

@@ -13,12 +13,13 @@ pre{
     overflow: auto;
     display: flex;
     flex-direction: column;
+    .ant-input{
+        margin-bottom: 10px;
+    }
+    .ant-btn{
+        height: 32px;
+        flex-shrink: 0;
+        margin-bottom: 10px;
+    }
 }
-.ant-btn{
-    height: 32px;
-    flex-shrink: 0;
-    margin-bottom: 10px;
-}
-.ant-input{
-    margin-bottom: 10px;
-}
+

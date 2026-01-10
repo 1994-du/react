@@ -30,9 +30,10 @@ export const headerStyle:React.CSSProperties=  {
   display:"flex",
   justifyContent:"space-between",
   alignItems:'center',
-  backgroundColor: "black",
-  color: "white",
+  backgroundColor: 'var(--background)',
+  color: "var(--color)",
   fontSize: "16px",
   fontWeight: "bold",
-  padding: "0 15px",
+  padding: "0 30px",
+  borderBottom: "1px solid var(--border)",
 };

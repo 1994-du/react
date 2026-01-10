@@ -1,11 +1,9 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useLayoutEffect, useState, ReactNode } from 'react';
-import cookie from 'js-cookie';
 interface PublicRouteProps {
   children: ReactNode;
   redirectPath?: string;
 }
-
 /**
  * 公共路由组件，用于处理无需登录即可访问的页面
  * 如果用户已登录，则重定向到其他页面
@@ -19,7 +17,7 @@ const PublicRoute: React.FC<PublicRouteProps> = ({
 
   useLayoutEffect(() => {
     // 检查用户是否已登录
-    const token = cookie.get('token');
+    const token = sessionStorage.getItem('isLogin')
     setIsAuthenticated(!!token);
   }, []);
 

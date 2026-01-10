@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import store  from './store'
 import './index.css'
 import router from './routes'
-import 'virtual:svg-icons-register';
+// import 'virtual:svg-icons-register';
 createRoot(document.getElementById('react-app')!).render(
   <StrictMode>
     <Provider store={store}>

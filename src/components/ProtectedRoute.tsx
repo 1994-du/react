@@ -1,6 +1,5 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useLayoutEffect, useState, ReactNode } from 'react';
-import cookie from 'js-cookie';
 interface ProtectedRouteProps {
   children: ReactNode;
   redirectTo?: string;
@@ -16,10 +15,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 }) => {
   const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-
+  
   useLayoutEffect(() => {
     // 检查用户是否已登录
-    const token = cookie.get('token')
+    const token = sessionStorage.getItem('isLogin')
     setIsAuthenticated(!!token);
   }, []);
 

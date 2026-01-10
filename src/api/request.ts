@@ -1,11 +1,8 @@
 import Axios from 'axios'
-import cookie from 'js-cookie'
 import { message } from 'antd';
+import { navigateToLogin } from '@/utils/navigation';
 const instance = Axios.create({
     timeout: 1000,
-    headers:{
-        Authorization: 'Bearer ' + cookie.get('token')
-    }
 });
 instance.interceptors.request.use(function (config) {
     return config;
@@ -15,9 +12,13 @@ instance.interceptors.request.use(function (config) {
 instance.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
-    console.log('error',error);
     if(error.status===500){
         message.error('服务器错误');
+    }
+    if(error.status===400||error.status===403){
+        message.error(error.message);
+        sessionStorage.removeItem('isLogin');
+        navigateToLogin();
     }
     return Promise.reject(error);
 });

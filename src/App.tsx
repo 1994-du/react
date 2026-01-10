@@ -1,15 +1,14 @@
 import { useState,useEffect } from "react";
-import cookie  from "js-cookie";
 import "./App.scss";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { setNavigate } from "@/utils/navigation";
 import { routerConfig } from "./routes";
 import iconMap from "@/utils/iconMap";
 import { Menu, Layout, Dropdown } from "antd";
-import type { MenuProps } from "antd";
+import type { MenuProps,MenuTheme } from "antd";
 import "@ant-design/v5-patch-for-react-19";
-import logo from '@/assets/svg/react.svg'
-import theme from '@/assets/svg/theme.svg'
 import { routerItem,menuItem,IconMap } from '@/types/menu';
+import { SvgIcon } from "@/components";
 import { contentStyle,contentWrapStyle,headerStyle,layoutStyle,siderStyle } from "./styles/app.style";
 const { Sider, Content, Header } = Layout;
 
@@ -35,6 +34,9 @@ function App() {
   useEffect(() => {
     localStorage.setItem('openMenus',openKeys.join(','))
   },[openKeys])
+  useEffect(() => {
+    setNavigate(navigate)
+  },[navigate])
   /**
    * @Description 展开菜单
    * @param collapsed
@@ -47,14 +49,14 @@ function App() {
         return {
           label: item.meta.title,
           key: item.path.replace('/*',''),
-          icon: renderIcon(item.meta.icon || ''),
+          icon: <SvgIcon name={item.meta.icon || ''}/>,
           children: recursionMenu(item.children),
         };
       }
       return {
         label: item.meta.title,
         key: item.path.replace('/*',''),
-        icon: renderIcon(item.meta.icon || ''),
+        icon: <SvgIcon name={item.meta.icon || ''}/>,
       }
      })
   }
@@ -70,7 +72,6 @@ function App() {
   const dropClick:MenuProps[ "onClick"] =  (e) => {
     if(e.key==='loginout'){
       sessionStorage.clear()
-      cookie.remove('token')
       navigate('/login');
     }
   };
@@ -93,15 +94,22 @@ function App() {
     navigate(path);
     setSelectedKeys([e.key]);
   };
-
+  const [themeVal, setThemeVal] = useState(document.documentElement.getAttribute('theme') as  MenuTheme )
+  const switchTheme = () => {
+    const newTheme = themeVal === 'dark' ? 'light' : 'dark'
+    document.documentElement.setAttribute('theme',newTheme)
+    setThemeVal(newTheme)
+  }
   return (
     <Layout style={layoutStyle}>
         <Header style={headerStyle}>
-          <img src={logo} alt="" />
-          <img src={theme} alt="" />
-          <Dropdown menu={{  items: [{ key: "loginout", label: "退出登录" }], onClick: dropClick }} placement="bottom" arrow>
-            {userName}
-          </Dropdown>
+          <SvgIcon name="react" color={themeVal} size="40px"/>
+          <div style={{display:"flex",alignItems:'center',gap :"10px"}}>
+            <SvgIcon name="theme" title="主题" size="20" onClick={switchTheme}/>
+            <Dropdown menu={{  items: [{ key: "loginout", label: "退出登录" }], onClick: dropClick }} placement="bottom" arrow>
+              <span style={{userSelect:'none'}}>{userName}</span>
+            </Dropdown>
+          </div>
         </Header>
         <Content style={contentWrapStyle}>
           <Sider
@@ -112,12 +120,12 @@ function App() {
         >
           <Menu
             onClick={menuClick}
-            style={{ flex: 1,overflow:'auto', backgroundColor: "transparent" }}
+            style={{ flex: 1,overflow:'auto' }}
             selectedKeys={selectedKeys}
             openKeys={openKeys}
             onOpenChange={menuOpenChange}
             mode="inline"
-            theme="dark"
+            theme={themeVal}
             inlineCollapsed={collapsed}
             items={menuItems}
           />
