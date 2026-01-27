@@ -4,12 +4,15 @@ import '@/styles/login.scss'
 import { toLogin } from '@/api/login';
 import { useState } from 'react';
 import { AxiosResponse } from 'axios';
+import { useDispatch } from 'react-redux';
+import { setUserInfo } from '@/store/user';
 
 interface LoginResponse {
   data: {
     token: string;
     username: string;
-    userId: number;
+    avatar: string;
+    menus: string[];
   };
   code: number;
   msg: string;
@@ -19,6 +22,8 @@ const Login = ()=>{
     const [userName,setUserName] = useState('');
     const [passWord,setPassWord] = useState('');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    
     const handleLogin = () => {
         
         toLogin({
@@ -28,8 +33,16 @@ const Login = ()=>{
             console.log(res);
             const {code,data,msg} = res.data;
             if(code === 200){
-                sessionStorage.setItem('username',data.username)
-                sessionStorage.setItem('isLogin',true+'')
+                // Store in Redux
+                dispatch(setUserInfo({
+                    userInfo: {
+                        username: data.username,
+                        avatar: data.avatar,
+                        token: data.token
+                    },
+                    menuList: data.menus // Empty menu list for now - will be populated based on actual API response
+                }));
+                
                 navigate('/home');
             }else{
                 alert(msg);

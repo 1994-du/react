@@ -4,6 +4,7 @@ export const contentStyle: React.CSSProperties = {
     minHeight: 120,
     lineHeight: "120px",
     background: "white",
+    overflow: "auto",
 }
 export const contentWrapStyle:  React.CSSProperties = {
   width : "100%",

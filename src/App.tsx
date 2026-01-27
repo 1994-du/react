@@ -16,8 +16,17 @@ const renderIcon = (iconName: string) => {
   const IconComponent = (iconMap as unknown as IconMap)[iconName];
   return IconComponent ? <IconComponent /> : null;
 };
-const userName:string = sessionStorage.getItem ("username") || "用户名";
+import { useSelector } from 'react-redux';
+
 function App() {
+interface RootState {
+  user?: {
+    userInfo?: {
+      username?: string;
+    };
+  };
+}
+const userName: string = useSelector((state: RootState) => state.user?.userInfo?.username) || "用户名";
   /**
    * @Description 菜单点击事件
    * @param event
