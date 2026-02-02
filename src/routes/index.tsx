@@ -17,6 +17,7 @@ import SystemManagement from "../pages/SystemManagement";
 import UserManagement from "@/pages/SystemManagement/userManagement";
 import RoleManagement from "@/pages/SystemManagement/roleManagement";
 import Registry from "@/pages/Registry";
+import ThreeJs from "@/pages/ThreeJs";
 export const routerConfig = [
   {
     path: "/*",
@@ -74,6 +75,7 @@ export const routerConfig = [
             meta: {
               title: "useState",
               showInMenu: true,
+              icon: "liwu",
             },
             element: <UseStateCom />,
           },
@@ -82,6 +84,7 @@ export const routerConfig = [
             meta: {
               title: "useEffect",
               showInMenu: true,
+              icon: "liwu",
             },
             element: <UseEffectCom />,
           },
@@ -90,6 +93,7 @@ export const routerConfig = [
             meta: {
               title: "useContext",
               showInMenu: true,
+              icon: "liwu",
             },
             element: <UseContextCom />,
           },
@@ -98,10 +102,20 @@ export const routerConfig = [
             meta: {
               title: "useMemo",
               showInMenu: true,
+              icon: "liwu",
             },
             element: <UseMemoCom />,
           },
         ],
+      },
+      {
+        path: "three-js",
+        meta: {
+          title: "ThreeJs",
+          showInMenu: true,
+          icon: "liwu",
+        },
+        element: <ProtectedRoute><ThreeJs /></ProtectedRoute>,
       },
       {
         path: "system-management/*",
@@ -136,10 +150,18 @@ export const routerConfig = [
   },
   {
     path: "/login",
+    meta: {
+      title: "登录",
+      showInMenu: false
+    },
     element: <PublicRoute><Login /></PublicRoute>,
   },
   {
     path: "/register",
+    meta: {
+      title: "注册",
+      showInMenu: false
+    },
     element: <PublicRoute><Registry /></PublicRoute>,
   },
 ];

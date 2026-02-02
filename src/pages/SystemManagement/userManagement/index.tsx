@@ -1,12 +1,15 @@
 import { useEffect, useState} from 'react'
 import { queryUserList,deleteUser } from '@/api/systemManagement'
 import type { userItem } from '@/types/user'
-import { Table, Button, message  } from 'antd'
+import { Table, Button, message, Drawer } from 'antd'
 export default function UserManagement() {
     const [userList, setUserList] = useState<userItem[]>([])
     const handleDetele= (record: userItem) => {
         console.log(record);
-        
+        // 确认删除
+        if(!window.confirm('确认删除吗？')){
+            return;
+        }
         deleteUser(record.id).then(res=>{
             console.log('deleteUser',res)
             if(res.data.code === 200){
@@ -14,6 +17,15 @@ export default function UserManagement() {
                 queryData()
             }
         })
+    }
+    const [open, setOpen] = useState(false);
+    const [currentUser, setCurrentUser] = useState<userItem>({} as userItem)
+    const handleEdit = (record: userItem) => {
+        setCurrentUser(record)
+        setOpen(true);
+    }
+    const onClose = ()=>{
+        setOpen(false);
     }
     const columns = [
         {
@@ -37,7 +49,8 @@ export default function UserManagement() {
             dataIndex: 'operation',
             key: 'operation',
             render: (_: unknown, record: userItem) => <div>
-                <Button onClick={()=>handleDetele(record)}>删除</Button>
+                <Button type='text'  onClick={()=>handleDetele(record)}>删除</Button>
+                <Button type='text'  onClick={()=>handleEdit(record)}>编辑</Button>
             </div>
         },
     ]
@@ -51,6 +64,19 @@ export default function UserManagement() {
         queryData()
     },[])
     return(
+        <div>
         <Table dataSource={userList} columns={columns} rowKey="id"></Table>
+        <Drawer
+            title="编辑用户信息"
+            closable={{ 'aria-label': 'Close Button' }}
+            onClose={onClose}
+            open={open}>
+            <div>
+                <p>用户名：{currentUser.username}</p>
+                <p>角色：{currentUser.roleName}</p>
+                <p>头像：<img src={`${import.meta.env.VITE_PROXY_URL}${currentUser.avatar}`} alt="头像" style={{ width: 40, height: 40, borderRadius: '50%' }} /></p>
+            </div>
+        </Drawer>
+      </div>
     )
 }

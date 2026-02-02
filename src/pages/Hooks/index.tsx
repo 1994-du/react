@@ -1,5 +1,5 @@
 import { Outlet,useNavigate } from 'react-router-dom';
-import './hooks.scss';
+import styles from './hooks.module.scss'
 import { Tabs } from 'antd';
 function Hooks() {
     const navigate = useNavigate();
@@ -37,6 +37,7 @@ function Hooks() {
     return (
         <div className="custom_hooks" style={custom_hooks_style}>
             <Tabs
+                className={styles.custom_hooks_tabs}
                 defaultActiveKey="1"
                 centered
                 items={tabsItems}
