@@ -167,6 +167,7 @@ export const routerConfig = [
 ];
 
 const router = createBrowserRouter(routerConfig, {
+  basename: '/react/',
   future: {
     v7_relativeSplatPath: true, // 启用新行为
   },
