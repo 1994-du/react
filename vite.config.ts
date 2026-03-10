@@ -14,6 +14,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src')
     }
   },
+  base: '/React/',
   server:{
     port: 3004,
     headers:{
