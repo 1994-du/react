@@ -1,14 +1,16 @@
 {
   "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ],
+  "references": [],
   "compilerOptions": {
-    "types": ["node"],
-    // "baseUrl": ".",
-    // "paths": {
-    //   "@/*": ["src/*"]
-    // }
+    "target": "ES2020",
+    "lib": ["DOM", "ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "jsx": "react-jsx",
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   }
 }
